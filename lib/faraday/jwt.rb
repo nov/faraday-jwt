@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "jwt/version"
+require_relative 'jwt/version'
 
 module Faraday
   module Jwt
