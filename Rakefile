@@ -1,8 +1,20 @@
 # frozen_string_literal: true
 
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new(:spec)
+
+namespace :coverage do
+  desc "Open coverage report"
+  task :report do
+    require 'simplecov'
+    `open "#{File.join SimpleCov.coverage_path, 'index.html'}"`
+  end
+end
+
+task :spec do
+  Rake::Task[:'coverage:report'].invoke unless ENV['GITHUB_ACTIONS']
+end
 
 task default: :spec

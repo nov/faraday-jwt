@@ -7,6 +7,6 @@ require_relative 'jwt/request'
 require_relative 'jwt/response'
 
 module Faraday
-  module Jwt
+  module JWT
   end
 end

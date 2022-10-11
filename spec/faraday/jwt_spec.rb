@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Jwt do
+RSpec.describe Faraday::JWT do
   it 'has a version number' do
-    expect(Faraday::Jwt::VERSION).not_to be nil
-  end
-
-  it 'does something useful' do
-    expect(false).to eq(true)
+    expect(Faraday::JWT::VERSION).not_to be nil
   end
 end

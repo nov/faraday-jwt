@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Faraday
-  module Jwt
+  module JWT
     class Request < Middleware
       def initialize(app = nil, signing_key: nil, signing_alg: :autodetect, content_type: 'application/jwt')
         super app

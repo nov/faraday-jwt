@@ -4,7 +4,7 @@ require_relative 'lib/faraday/jwt/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'faraday-jwt'
-  spec.version = Faraday::Jwt::VERSION
+  spec.version = Faraday::JWT::VERSION
   spec.authors = ['nov']
   spec.email = ['nov@matake.jp']
 
