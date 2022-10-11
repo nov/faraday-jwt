@@ -63,6 +63,21 @@ RSpec.describe Faraday::JWT::Request do
     context 'when body is an object' do
       let(:body) { {foo: :bar} }
       it_behaves_like :encode_body
+
+      context 'when signing_key is given' do
+        let(:private_key) { OpenSSL::PKey::RSA.generate 2048 }
+        let(:options) do
+          {
+            signing_key: private_key
+          }
+        end
+
+        describe 'body' do
+          it do
+            expect(request.body).to eq JSON::JWT.new(body).sign(private_key).to_s
+          end
+        end
+      end
     end
   end
 
