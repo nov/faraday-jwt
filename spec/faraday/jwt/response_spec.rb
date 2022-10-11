@@ -37,7 +37,7 @@ RSpec.describe Faraday::JWT::Response do
 
     describe 'body' do
       it do
-        expect(response.body).to eq JSON::JWT.decode(body)
+        expect(response.body).to eq JSON::JWT.decode(body, :skip_verification)
       end
     end
   end
@@ -58,6 +58,46 @@ RSpec.describe Faraday::JWT::Response do
     context 'when body is a string' do
       let(:body) { 'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJmb28iOiJiYXIifQ.' }
       it_behaves_like :decode_body
+
+      context 'when invalid JWT' do
+        let(:body) { 'invalid' }
+
+        it do
+          expect { response }.to raise_error Faraday::ParsingError
+        end
+      end
+
+      context 'when verification_key is given' do
+        let(:private_key) { OpenSSL::PKey::RSA.generate 2048 }
+        let(:options) do
+          {
+            verification_key: private_key.public_key
+          }
+        end
+        let(:body) { JSON::JWT.new(foo: :bar).sign(signing_key).to_s }
+
+        context 'when signature is valid' do
+          let(:signing_key) { private_key }
+
+          it_behaves_like :decode_body
+        end
+
+        context 'when signature is invalid' do
+          let(:signing_key) { OpenSSL::PKey::RSA.generate 2048 }
+
+          it do
+            expect { response }.to raise_error Faraday::ParsingError
+          end
+        end
+
+        context 'when algorithm is invalid' do
+          let(:signing_key) { 'secret' }
+
+          it do
+            expect { response }.to raise_error Faraday::ParsingError
+          end
+        end
+      end
     end
 
     context 'when body is an object' do
