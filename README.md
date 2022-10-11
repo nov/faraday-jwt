@@ -16,7 +16,50 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+### Request
+
+```ruby
+conn = Faraday.new(...) do |f|
+  f.request :jwt
+  ...
+end
+
+conn.post('/', { foo: :bar })
+# POST with
+# Content-Type: application/jwt
+# Body: eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJmb28iOiJiYXIifQ.
+```
+
+or optionally signing
+
+```ruby
+conn = Faraday.new(...) do |f|
+  f.request :jwt, signing_key: private_key
+  ...
+end
+```
+
+### Response
+
+```ruby
+conn = Faraday.new(...) do |f|
+  f.response :jwt
+  ...
+end
+
+res = conn.get('jwt')
+res.body
+# => JSON::JWT instance
+```
+
+or optionally verifying
+
+```ruby
+conn = Faraday.new(...) do |f|
+  f.response :jwt, verification_key: public_key
+  ...
+end
+```
 
 ## Development
 
