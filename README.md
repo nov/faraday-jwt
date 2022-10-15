@@ -59,6 +59,9 @@ conn = Faraday.new(...) do |f|
 end
 ```
 
+Even with the first seting, `response.body` would be `JSON::JWS` instance, so you can verify it by yourself.
+You can also get the raw input via `response.env[:raw_body]`.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
